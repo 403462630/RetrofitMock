@@ -1,8 +1,19 @@
 apply plugin: 'com.android.application'
-
-apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'retrofitMock'
+buildscript {
+    repositories {
+        jcenter()
+        google()
+        mavenCentral()
+        maven {
+            url uri('../repos')
+        }
+//        maven { url 'https://jitpack.io' }
+    }
+    dependencies {
+        classpath 'fc.retrofit.mock:plugin:0.0.1'
+    }
+}
 
 android {
     compileSdkVersion 29
@@ -12,7 +23,6 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -20,15 +30,25 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
+}
+
+retrofitMock {
+//    baseUrl="https://541c2043-0192-4d97-abcc-851c4f719b53.mock.pstmn.io/"
+    baseUrl="https://aac73f0f-ee75-4188-aabc-b2d8be3f81e2.mock.pstmn.io/"
+    xApiKey="PMAK-60af85af16eef400422dc3f8-c682c75f5880082a1fad8ab737e301aee9"
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation project(":library")
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
