@@ -10,7 +10,11 @@ public interface ZhiHuApi {
     @GET("api/4/news/latest")
     Call<ResponseBody> getLatestNews();
 
-    @RetrofitMock
+    @ARetrofitMock
     @GET("api/4/news/latest")
     Call<ResponseBody> getLatestNews2();
+
+    @BRetrofitMock
+    @GET("api/4/news/latest")
+    Call<ResponseBody> getLatestNews3();
 }

@@ -5,6 +5,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
+import java.lang.annotation.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -18,11 +19,53 @@ public class MockRetrofitHelper {
 
     public static Retrofit wrapRetrofit(Retrofit retrofit, Method method, RetrofitData data) {
         if (retrofit == null || method == null) return retrofit;
-        RetrofitMock retrofitMock = method.getAnnotation(RetrofitMock.class);
+        RetrofitMock retrofitMock = getRetrofitMock(method);
         if (retrofitMock != null) {
             return buildRetrofit(retrofit, retrofitMock, data);
         } else {
             return retrofit;
+        }
+    }
+
+    private static RetrofitMock getRetrofitMock(Method method) {
+        RetrofitMock retrofitMock = method.getAnnotation(RetrofitMock.class);
+        if (retrofitMock != null) {
+            return retrofitMock;
+        }
+        Annotation[] annotations = method.getAnnotations();
+        if (annotations != null && annotations.length > 0) {
+            for (Annotation annotation : annotations) {
+                Class<? extends Annotation> annotationClass = annotation.annotationType();
+                retrofitMock = getRetrofitMock(annotationClass);
+                if (retrofitMock != null) {
+                    return retrofitMock;
+                }
+            }
+        }
+        return null;
+    }
+
+    private static RetrofitMock getRetrofitMock(Class<? extends Annotation> annotationClass) {
+        if (annotationClass == Documented.class
+                || annotationClass == Inherited.class
+                || annotationClass == Target.class
+                || annotationClass == Retention.class) {
+            return null;
+        }
+        RetrofitMock retrofitMock = annotationClass.getAnnotation(RetrofitMock.class);
+        if (retrofitMock != null) {
+            return retrofitMock;
+        } else {
+            Annotation[] annotations = annotationClass.getAnnotations();
+            if (annotations != null && annotations.length > 0) {
+                for (Annotation annotation : annotations) {
+                    retrofitMock = getRetrofitMock(annotation.annotationType());
+                    if (retrofitMock != null) {
+                        return retrofitMock;
+                    }
+                }
+            }
+            return null;
         }
     }
 

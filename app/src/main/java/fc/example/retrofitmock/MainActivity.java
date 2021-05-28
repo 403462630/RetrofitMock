@@ -54,8 +54,31 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void onMockRequest(View view) {
+    public void onMockRequest1(View view) {
         zhiHuApi.getLatestNews2().enqueue(new Callback<ResponseBody>() {
+
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (response.code() == 200) {
+                        textView.setText(response.body().string());
+                    } else {
+                        textView.setText(response.errorBody().string());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+
+            }
+        });
+    }
+
+    public void onMockRequest2(View view) {
+        zhiHuApi.getLatestNews3().enqueue(new Callback<ResponseBody>() {
 
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

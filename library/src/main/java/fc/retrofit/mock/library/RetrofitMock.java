@@ -3,7 +3,8 @@ package fc.retrofit.mock.library;
 import java.lang.annotation.*;
 
 @Documented
-@Target(ElementType.METHOD)
+@Inherited
+@Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RetrofitMock {
     String baseUrl() default "";
