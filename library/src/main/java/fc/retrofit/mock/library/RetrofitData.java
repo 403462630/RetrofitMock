@@ -1,6 +1,6 @@
 package fc.retrofit.mock.library;
 
-public class RetrofitData {
+public final class RetrofitData {
     private String baseUrl;
     private String xApiKey;
 

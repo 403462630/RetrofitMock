@@ -8,7 +8,7 @@ import okhttp3.Response;
 import java.io.IOException;
 import java.util.Map;
 
-public class MockHeaderInterceptor implements Interceptor {
+final class MockHeaderInterceptor implements Interceptor {
 
     private Map<String, String> headers;
 

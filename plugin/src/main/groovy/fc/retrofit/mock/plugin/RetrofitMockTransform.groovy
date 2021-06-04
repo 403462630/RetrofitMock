@@ -33,7 +33,11 @@ class RetrofitMockTransform extends HunterTransform {
 
     @Override
     protected RunVariant getRunVariant() {
-        return super.getRunVariant()
+        if (retrofitMockExtension == null || retrofitMockExtension.onlyDebug) {
+            return RunVariant.DEBUG
+        } else {
+            return super.getRunVariant()
+        }
     }
 
     @Override

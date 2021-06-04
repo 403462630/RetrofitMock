@@ -1,16 +1,14 @@
 package fc.retrofit.mock.library;
 
 import android.text.TextUtils;
-import okhttp3.Interceptor;
+import android.util.Log;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
 import java.lang.annotation.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MockRetrofitHelper {
@@ -77,10 +75,15 @@ public class MockRetrofitHelper {
                 if (retrofitCache.get(baseUrl) != null) {
                     return retrofitCache.get(baseUrl);
                 }
-                String xApiKey = getXApiKey(retrofitMock, data);
                 Retrofit.Builder builder = retrofit.newBuilder().baseUrl(baseUrl);
+
+                String xApiKey = getXApiKey(retrofitMock, data);
+                Map<String, String> headers = parseHeaders(retrofitMock.headers());
                 if (!TextUtils.isEmpty(xApiKey)) {
-                    addHeaderInterception(builder, xApiKey);
+                    headers.put("x-api-key", xApiKey);
+                }
+                if (!headers.isEmpty()) {
+                    addHeaderInterception(builder, headers);
                 }
                 result = builder.build();
                 retrofitCache.put(baseUrl, result);
@@ -89,14 +92,12 @@ public class MockRetrofitHelper {
         return result;
     }
 
-    private static void addHeaderInterception(Retrofit.Builder builder, String xApiKey) {
+    private static void addHeaderInterception(Retrofit.Builder builder, Map<String, String> headers) {
         try {
             Field field = builder.getClass().getDeclaredField("callFactory");
             field.setAccessible(true);
             Object callFactory = field.get(builder);
             if (callFactory instanceof OkHttpClient) {
-                Map<String, String> headers = new HashMap();
-                headers.put("x-api-key", xApiKey);
                 OkHttpClient okHttpClient = ((OkHttpClient) callFactory).newBuilder()
                         .addInterceptor(new MockHeaderInterceptor(headers))
                         .build();
@@ -105,6 +106,29 @@ public class MockRetrofitHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static Map<String, String> parseHeaders(String[] headers) {
+        Map<String, String> result = new HashMap<>();
+        if (headers == null || headers.length <= 0) {
+            return result;
+        }
+
+        String[] var3 = headers;
+        int var4 = headers.length;
+
+        for(int var5 = 0; var5 < var4; ++var5) {
+            String header = var3[var5];
+            int colon = header.indexOf(58);
+            if (colon == -1 || colon == 0 || colon == header.length() - 1) {
+                throw new IllegalArgumentException("@RetrofitMock headers value must be in the form \"Name: Value\", Found: \"" + header + "\"");
+            }
+
+            String headerName = header.substring(0, colon);
+            String headerValue = header.substring(colon + 1).trim();
+            result.put(headerName, headerValue);
+        }
+        return result;
     }
 
     private static String getBaseUrl(RetrofitMock retrofitMock, RetrofitData data) {
