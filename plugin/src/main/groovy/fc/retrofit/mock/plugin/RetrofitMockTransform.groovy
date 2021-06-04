@@ -17,7 +17,6 @@ class RetrofitMockTransform extends HunterTransform {
     RetrofitMockTransform(Project project) {
         super(project)
         this.project = project
-        project.extensions.create("retrofitMock", RetrofitMockExtension)
         this.bytecodeWeaver = new RetrofitWeaver()
     }
 

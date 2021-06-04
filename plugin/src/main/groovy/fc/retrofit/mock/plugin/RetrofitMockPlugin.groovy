@@ -8,6 +8,8 @@ class RetrofitMockPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+        project.extensions.create("retrofitMock", RetrofitMockExtension)
+
         boolean disableRetrofitMockPlugin = false
         Properties properties = new Properties()
         if (project.rootProject.file('local.properties').exists()) {
