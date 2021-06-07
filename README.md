@@ -13,7 +13,7 @@
 buildscript {
     repositories {
     	...
-		maven { url 'https://jitpack.io' }
+	maven { url 'https://jitpack.io' }
     }
     
     dependencies {
@@ -34,8 +34,8 @@ apply plugin: 'retrofitMock'
 // 配置默认的baseUrl和xApiKey(postman mock server私有api专用)
 // 可以不用配置，在使用的时候再指定
 retrofitMock {
-	onlyDebug true // 默认值，只有在debug模式才起作用
-	// postman（或自己搭建的mock服务）的host
+    onlyDebug true // 默认值，只有在debug模式才起作用
+    // postman（或自己搭建的mock服务）的host
     baseUrl="https://541c2043-0192-4d97-abcc-851c4f719b53.mock.pstmn.io/"
     // postman的private api key（public api 不需要配置xApiKey）
     xApiKey="PMAK-60af85af16eef400422dc3f8-c682c75f5880082a1fad8ab737e301aee9"
