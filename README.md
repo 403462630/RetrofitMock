@@ -22,7 +22,12 @@ buildscript {
     }
 }
 
-
+allprojects {
+    repositories {
+        ...
+        maven { url "https://jitpack.io" }
+    }
+}
 ```
 
 然后在app/build.gradle下使用plugin
