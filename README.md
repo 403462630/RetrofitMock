@@ -18,7 +18,7 @@ buildscript {
     
     dependencies {
     	...
-        classpath 'fc.retrofit.mock.RetrofitMock:plugin:1.0.0'
+        classpath 'com.github.403462630.RetrofitMock:plugin:1.0.0'
     }
 }
 
