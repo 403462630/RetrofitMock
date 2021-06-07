@@ -2,16 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'retrofitMock'
 buildscript {
     repositories {
-        jcenter()
         google()
         mavenCentral()
-        maven {
-            url uri('../repos')
-        }
-//        maven { url 'https://jitpack.io' }
-    }
-    dependencies {
-        classpath 'fc.retrofit.mock:plugin:0.0.1'
     }
 }
 

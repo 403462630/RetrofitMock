@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onRequest(View view) {
-        zhiHuApi.getLatestNews().enqueue(new Callback<ResponseBody>() {
+    public void onRequest1(View view) {
+        zhiHuApi.getLatestNew1().enqueue(new Callback<ResponseBody>() {
 
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void onMockRequest1(View view) {
+    public void onMockRequest2(View view) {
         zhiHuApi.getLatestNews2().enqueue(new Callback<ResponseBody>() {
 
             @Override
@@ -77,8 +77,31 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void onMockRequest2(View view) {
+    public void onMockRequest3(View view) {
         zhiHuApi.getLatestNews3().enqueue(new Callback<ResponseBody>() {
+
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (response.code() == 200) {
+                        textView.setText(response.body().string());
+                    } else {
+                        textView.setText(response.errorBody().string());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+
+            }
+        });
+    }
+
+    public void onMockRequest4(View view) {
+        zhiHuApi.getLatestNews4().enqueue(new Callback<ResponseBody>() {
 
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
