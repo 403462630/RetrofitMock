@@ -4,8 +4,10 @@ plugins {
     id 'maven'
 }
 
-group 'fc.retrofit.mock'
-version '0.0.1'
+group="com.github.403462630"
+// 测试配置
+//group 'fc.retrofit.mock'
+//version '0.0.1'
 
 targetCompatibility = JavaVersion.VERSION_1_8
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -22,8 +24,9 @@ dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 
-uploadArchives {
-    repositories.mavenDeployer {
-        repository(url: uri('../repos'))
-    }
-}
+// 测试配置
+//uploadArchives {
+//    repositories.mavenDeployer {
+//        repository(url: uri('../repos'))
+//    }
+//}
